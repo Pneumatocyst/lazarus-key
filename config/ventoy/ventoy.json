@@ -1,0 +1,60 @@
+{
+  "control": [
+    { "VTOY_MENU_LANGUAGE": "en_US" },
+    { "VTOY_DEFAULT_MENU_MODE": "1" },
+    { "VTOY_TREE_VIEW_MENU_STYLE": "1" },
+    { "VTOY_FILT_DOT_UNDERSCORE_FILE": "1" },
+    { "VTOY_SORT_CASE_SENSITIVE": "0" },
+    { "VTOY_MAX_SEARCH_LEVEL": "3" },
+    { "VTOY_DEFAULT_SEARCH_ROOT": "/ISO" },
+    { "VTOY_FILE_FLT_EFI": "1" },
+    { "VTOY_WIN11_BYPASS_CHECK": "0" },
+    { "VTOY_WIN11_BYPASS_NRO": "0" },
+    { "VTOY_WIN_UEFI_RES_LOCK": "3" }
+  ],
+  "theme": {
+    "file": "/ventoy/theme/lazarus/theme.txt",
+    "gfxmode": "1024x768",
+    "display_mode": "GUI",
+    "ventoy_left": "2%",
+    "ventoy_top": "96%",
+    "ventoy_color": "#667085"
+  },
+  "menu_alias": [
+    {
+      "dir": "/ISO/Windows",
+      "alias": "Windows Recovery"
+    },
+    {
+      "dir": "/ISO/Linux",
+      "alias": "Linux Rescue"
+    },
+    {
+      "dir": "/ISO/Diagnostics",
+      "alias": "Hardware Diagnostics"
+    },
+    {
+      "image": "/ISO/Windows/HBCD_PE_x64.iso",
+      "alias": "Hiren's BootCD PE - Windows Repair"
+    },
+    {
+      "image": "/ISO/Linux/systemrescue-13.02-amd64.iso",
+      "alias": "SystemRescue - Linux Recovery Environment"
+    }
+  ],
+  "menu_tip": {
+    "left": "14%",
+    "top": "82%",
+    "color": "#98A2B3",
+    "tips": [
+      {
+        "image": "/ISO/Windows/HBCD_PE_x64.iso",
+        "tip": "Windows PE environment for authorized repair, diagnostics, and file recovery."
+      },
+      {
+        "image": "/ISO/Linux/systemrescue-13.02-amd64.iso",
+        "tip": "Linux recovery environment with storage, filesystem, network, imaging, and memory tools."
+      }
+    ]
+  }
+}

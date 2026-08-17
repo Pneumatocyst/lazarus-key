@@ -1,0 +1,71 @@
+title-text: ""
+desktop-image: "background.png"
+desktop-color: "#090B12"
+
++ label {
+  left = 14%
+  top = 10%
+  width = 72%
+  height = 42
+  text = "LAZARUS KEY"
+  color = "#F2F4F7"
+  align = "left"
+}
+
++ label {
+  left = 14%
+  top = 16%
+  width = 72%
+  height = 28
+  text = "AUTHORIZED DIAGNOSTICS AND RECOVERY"
+  color = "#8B7CFF"
+  align = "left"
+}
+
++ boot_menu {
+  left = 14%
+  top = 25%
+  width = 72%
+  height = 48%
+  item_color = "#D0D5DD"
+  selected_item_color = "#FFFFFF"
+  item_height = 42
+  item_padding = 14
+  item_spacing = 4
+  selected_item_pixmap_style = "select_*.png"
+  scrollbar = false
+}
+
++ label {
+  left = 14%
+  top = 82%
+  width = 72%
+  height = 22
+  text = "Select an environment and press ENTER"
+  color = "#98A2B3"
+  align = "left"
+}
+
++ progress_bar {
+  id = "__timeout__"
+  left = 14%
+  top = 87%
+  width = 72%
+  height = 4
+  show_text = false
+  fg_color = "#7F56D9"
+  bg_color = "#1D2939"
+  border_width = 0
+}
+
++ hbox {
+  left = 14%
+  top = 92%
+  width = 72%
+  height = 24
+  + label {
+    text = "@VTOY_HOTKEY_TIP@"
+    color = "#667085"
+    align = "left"
+  }
+}

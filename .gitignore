@@ -1,0 +1,17 @@
+*.iso
+*.img
+*.wim
+*.vhd
+*.vhdx
+*.exe
+*.msi
+*.zip
+*.7z
+release/
+Reports/
+Recovered-Files/
+PortableTools/*
+!PortableTools/README.md
+*.log
+.DS_Store
+Thumbs.db

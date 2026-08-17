@@ -1,0 +1,35 @@
+name: Validate project
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  json:
+    name: JSON and required files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON
+        run: |
+          python -m json.tool config/ventoy/ventoy.json > /dev/null
+          python -m json.tool manifests/images.json > /dev/null
+      - name: Check required files
+        run: |
+          test -f config/ventoy/theme/lazarus/theme.txt
+          test -f config/ventoy/theme/lazarus/background.png
+          test -f src/launcher/LazarusKey.ps1
+          test -f scripts/Deploy-LazarusKey.ps1
+          test -f scripts/Validate-LazarusKey.ps1
+
+  powershell:
+    name: PowerShell syntax
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse PowerShell source
+        shell: pwsh
+        run: .\scripts\Test-Project.ps1

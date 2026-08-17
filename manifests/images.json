@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "project_version": "0.1.0",
+  "updated": "2026-08-17",
+  "images": [
+    {
+      "id": "hirens-bootcd-pe",
+      "name": "Hiren's BootCD PE x64",
+      "version": "1.0.8",
+      "required": true,
+      "destination": "ISO/Windows/HBCD_PE_x64.iso",
+      "download_page": "https://www.hirensbootcd.org/download/",
+      "size_bytes": 3291686912,
+      "sha256": "8c4c670c9c84d6c4b5a9c32e0aa5a55d8c23de851d259207d54679ea774c2498",
+      "notes": "Use primarily as an offline Windows recovery environment."
+    },
+    {
+      "id": "systemrescue",
+      "name": "SystemRescue amd64",
+      "version": "13.02",
+      "required": true,
+      "destination": "ISO/Linux/systemrescue-13.02-amd64.iso",
+      "download_page": "https://www.system-rescue.org/Download/",
+      "size_mib_approx": 1318,
+      "sha256": "ad4d670b72859d887c7960142a9a9d36a3e50446694a035e254442f65d6e7572",
+      "notes": "Includes filesystem, storage, networking, imaging, and memory-testing utilities."
+    }
+  ]
+}
