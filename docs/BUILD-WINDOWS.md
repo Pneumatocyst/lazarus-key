@@ -29,8 +29,10 @@ Ventoy installation is the only destructive part of this build.
 Use Disk Management to create a new simple volume in the 1,024 MB unallocated space:
 
 - Label: `LAZARUS_DATA`
-- Filesystem: exFAT
+- Filesystem: FAT32 (tested) or exFAT
 - Allocation unit: Default
+
+Windows Disk Management may offer FAT32 rather than exFAT for this 1 GB volume. FAT32 is the tested v0.1.0 configuration and is appropriate here because the partition cannot hold a file larger than FAT32's per-file limit anyway.
 
 Create these folders:
 
@@ -86,3 +88,17 @@ Generate a sample support report and confirm that it is written to `LAZARUS_DATA
 ## 8. Boot-test
 
 Follow `TEST-PLAN.md`. At minimum, confirm the themed menu, Hiren's BootCD PE, SystemRescue, keyboard input, storage visibility, network hardware, and a clean return to the local operating system.
+
+## v0.1.0 reference build
+
+The first physically verified build used:
+
+- Verbatim Store N Go USB drive, nominal 8 GB (7.47 GB visible in Windows)
+- Ventoy 1.1.17, MBR partition style
+- `LAZARUSKEY`: exFAT, approximately 6.44 GB
+- `VTOYEFI`: FAT, 32 MB, created by Ventoy
+- `LAZARUS_DATA`: FAT32, approximately 1 GB
+- UEFI boot mode
+- Hiren's BootCD PE x64 1.0.8 and SystemRescue 13.02 amd64
+
+Both ISO files passed the pinned SHA-256 validation before boot testing. The custom Ventoy theme, both rescue environments, Windows launcher, and report output to `LAZARUS_DATA` were verified successfully.
