@@ -2,7 +2,7 @@
 
 Lazarus Key is a compact, Ventoy-based troubleshooting and recovery USB designed for an 8 GB flash drive. It combines a polished boot menu, a Windows technician launcher, bootable recovery environments, portable utilities, and a separate place for reports and recovered files.
 
-> Status: v0.1.0 starter scaffold. The project files are ready; third-party ISO images and portable applications must be downloaded separately from their official sources.
+> Status: v0.1.0 physically verified release. The source-controlled project files are ready; third-party ISO images and portable applications must still be downloaded separately from their official sources.
 
 ## What v0.1 includes
 
@@ -23,15 +23,17 @@ Lazarus Key is a compact, Ventoy-based troubleshooting and recovery USB designed
 
 The two core images use roughly 4.4 GiB. An 8 GB flash drive normally exposes about 7.45 GiB, leaving room for Ventoy, the launcher, portable tools, and approximately 1 GB of technician storage.
 
-## Proposed disk layout
+## Tested 8 GB disk layout
 
 | Partition | Format | Suggested size | Purpose |
 | --- | --- | ---: | --- |
 | `LAZARUSKEY` | exFAT | Remaining space | Ventoy, ISOs, launcher, and portable tools |
 | `VTOYEFI` | FAT | Created by Ventoy | Boot files; do not modify |
-| `LAZARUS_DATA` | exFAT | 1,024 MB | Reports, drivers, notes, and recovered files |
+| `LAZARUS_DATA` | FAT32 | 1,024 MB | Reports, drivers, notes, and recovered files |
 
 Use Ventoy's reserved-space option during its initial installation to leave 1,024 MB at the end of the drive. Create `LAZARUS_DATA` in that reserved space afterward.
+
+The v0.1.0 physical build used Ventoy 1.1.17 on a nominal 8 GB Verbatim Store N Go drive. The themed menu booted in UEFI mode, both pinned ISO hashes passed, Hiren's BootCD PE and SystemRescue launched successfully, and the Windows launcher wrote its support report to `LAZARUS_DATA`. Secure Boot enrollment behavior and Legacy BIOS/CSM remain part of the broader compatibility matrix.
 
 ## Repository layout
 
