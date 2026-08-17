@@ -29,9 +29,23 @@ Inspect reports for accidental secrets before sharing them.
 
 | Firmware configuration | Ventoy menu | Hiren PE | SystemRescue |
 | --- | --- | --- | --- |
+| UEFI, physical v0.1.0 test (Secure Boot state not recorded) | Pass - 2026-08-17 | Pass - 2026-08-17 | Pass - 2026-08-17 |
 | UEFI, Secure Boot enabled | Pending | Pending | Pending |
 | UEFI, Secure Boot disabled | Pending | Pending | Pending |
 | Legacy BIOS/CSM | Pending | Pending | Pending |
+
+### v0.1.0 verified build record
+
+- USB: Verbatim Store N Go, nominal 8 GB (7.47 GB visible)
+- Ventoy: 1.1.17, MBR layout, UEFI boot
+- Main partition: `LAZARUSKEY`, exFAT, approximately 6.44 GB
+- Storage partition: `LAZARUS_DATA`, FAT32, approximately 1 GB
+- ISO validation: Hiren's BootCD PE x64 1.0.8 and SystemRescue 13.02 amd64 passed their pinned SHA-256 checks
+- Windows launcher: opened successfully as a standard user
+- Report collection: completed and wrote `system.txt`, `storage.txt`, `network.txt`, and `events.txt` under `LAZARUS_DATA:\Reports`
+- Boot menu: custom Lazarus Key theme, keyboard navigation, and friendly Linux/Windows aliases verified
+- Rescue environments: both required images launched successfully
+- Host computer model: not recorded
 
 ## Functional checks
 
