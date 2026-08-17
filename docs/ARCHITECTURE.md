@@ -21,9 +21,13 @@ flowchart TD
     B --> D[SystemRescue]
     B --> E[Optional diagnostic images]
     F[Running Windows] --> G[Lazarus Key launcher]
-    G --> H[Read-only reports]
-    G --> I[Portable tools]
-    H --> J[LAZARUS_DATA or local Reports]
+    G --> H[Built-in read-only reports]
+    G --> I[System Info Collector]
+    G --> J[Network Troubleshooter]
+    G --> K[Portable tools]
+    H --> L[LAZARUSDATA or local Reports]
+    I --> L
+    J --> L
 ```
 
 ## Trust boundaries

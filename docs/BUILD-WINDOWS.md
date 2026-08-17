@@ -24,11 +24,11 @@ Copy everything important off the flash drive. Open Disk Management and record t
 
 Ventoy installation is the only destructive part of this build.
 
-## 3. Create LAZARUS_DATA
+## 3. Create LAZARUSDATA
 
 Use Disk Management to create a new simple volume in the 1,024 MB unallocated space:
 
-- Label: `LAZARUS_DATA`
+- Label: `LAZARUSDATA` (the 11-character FAT volume-label limit excludes the underscore form)
 - Filesystem: FAT32 (tested) or exFAT
 - Allocation unit: Default
 
@@ -37,10 +37,10 @@ Windows Disk Management may offer FAT32 rather than exFAT for this 1 GB volume. 
 Create these folders:
 
 ```text
-LAZARUS_DATA:\Drivers
-LAZARUS_DATA:\Reports
-LAZARUS_DATA:\Recovered-Files
-LAZARUS_DATA:\Technician-Notes
+LAZARUSDATA:\Drivers
+LAZARUSDATA:\Reports
+LAZARUSDATA:\Recovered-Files
+LAZARUSDATA:\Technician-Notes
 ```
 
 ## 4. Deploy Lazarus Key project content
@@ -83,7 +83,17 @@ Open:
 E:\Launcher\Launch-LazarusKey.cmd
 ```
 
-Generate a sample support report and confirm that it is written to `LAZARUS_DATA:\Reports` when that partition is mounted.
+Generate a sample support report and confirm that it is written to `LAZARUSDATA:\Reports` when that partition is mounted.
+
+Test the **System Info Collector** and **Network Troubleshooter** buttons. Each should:
+
+1. Open a PowerShell console.
+2. Create a timestamped subfolder under `LAZARUSDATA:\Reports`.
+3. Export TXT, JSON, and CSV files.
+4. Open the completed folder in File Explorer.
+5. Keep the console open until Enter is pressed.
+
+If `LAZARUSDATA` is unavailable, confirm that the tools fall back to `LAZARUSKEY:\Reports` without failing.
 
 ## 8. Boot-test
 
@@ -97,8 +107,8 @@ The first physically verified build used:
 - Ventoy 1.1.17, MBR partition style
 - `LAZARUSKEY`: exFAT, approximately 6.44 GB
 - `VTOYEFI`: FAT, 32 MB, created by Ventoy
-- `LAZARUS_DATA`: FAT32, approximately 1 GB
+- `LAZARUSDATA`: FAT32, approximately 1 GB
 - UEFI boot mode
 - Hiren's BootCD PE x64 1.0.8 and SystemRescue 13.02 amd64
 
-Both ISO files passed the pinned SHA-256 validation before boot testing. The custom Ventoy theme, both rescue environments, Windows launcher, and report output to `LAZARUS_DATA` were verified successfully.
+Both ISO files passed the pinned SHA-256 validation before boot testing. The custom Ventoy theme, both rescue environments, Windows launcher, and report output to `LAZARUSDATA` were verified successfully.

@@ -2,13 +2,15 @@
 
 Lazarus Key is a compact, Ventoy-based troubleshooting and recovery USB designed for an 8 GB flash drive. It combines a polished boot menu, a Windows technician launcher, bootable recovery environments, portable utilities, and a separate place for reports and recovered files.
 
-> Status: v0.1.0 physically verified release. The source-controlled project files are ready; third-party ISO images and portable applications must still be downloaded separately from their official sources.
+> Status: v0.2.0 physically verified release. The integrated Windows technician tools, report routing, ISO validation, Ventoy menu, and both rescue environments have passed testing on the reference USB.
 
-## What v0.1 includes
+## What v0.2 includes
 
 - A dark Lazarus Key Ventoy theme and friendly boot-menu names.
 - A Windows PowerShell/WPF technician launcher.
 - Read-only system, storage, and network report collection.
+- Integrated Windows and Linux system-information collectors.
+- Integrated Windows and Linux network troubleshooters with PASS/WARN/FAIL results.
 - Ventoy deployment and validation scripts.
 - A pinned ISO manifest with official URLs and SHA-256 hashes.
 - A safe public-repository layout that does not redistribute third-party binaries.
@@ -29,11 +31,11 @@ The two core images use roughly 4.4 GiB. An 8 GB flash drive normally exposes ab
 | --- | --- | ---: | --- |
 | `LAZARUSKEY` | exFAT | Remaining space | Ventoy, ISOs, launcher, and portable tools |
 | `VTOYEFI` | FAT | Created by Ventoy | Boot files; do not modify |
-| `LAZARUS_DATA` | FAT32 | 1,024 MB | Reports, drivers, notes, and recovered files |
+| `LAZARUSDATA` | FAT32 | 1,024 MB | Reports, drivers, notes, and recovered files |
 
-Use Ventoy's reserved-space option during its initial installation to leave 1,024 MB at the end of the drive. Create `LAZARUS_DATA` in that reserved space afterward.
+Use Ventoy's reserved-space option during its initial installation to leave 1,024 MB at the end of the drive. Create `LAZARUSDATA` in that reserved space afterward. FAT volume labels are limited to 11 characters, so the underscore form is not used for the physical partition.
 
-The v0.1.0 physical build used Ventoy 1.1.17 on a nominal 8 GB Verbatim Store N Go drive. The themed menu booted in UEFI mode, both pinned ISO hashes passed, Hiren's BootCD PE and SystemRescue launched successfully, and the Windows launcher wrote its support report to `LAZARUS_DATA`. Secure Boot enrollment behavior and Legacy BIOS/CSM remain part of the broader compatibility matrix.
+The reference physical build uses Ventoy 1.1.17 on a nominal 8 GB Verbatim Store N Go drive. The themed menu booted in UEFI mode, both pinned ISO hashes passed, Hiren's BootCD PE and SystemRescue launched successfully, and the Windows launcher wrote its reports to `LAZARUSDATA`. In v0.2.0, both integrated technician tools generated TXT, JSON, and CSV exports successfully. Secure Boot enrollment behavior and Legacy BIOS/CSM remain part of the broader compatibility matrix.
 
 ## Repository layout
 
@@ -45,6 +47,7 @@ lazarus-key/
 ├── manifests/images.json          Pinned ISO sources and hashes
 ├── scripts/                       Deployment and validation scripts
 ├── src/launcher/                  Windows launcher source
+├── tools/                         Integrated Windows and Linux technician tools
 ├── CHANGELOG.md
 ├── LICENSE
 └── VERSION
@@ -71,6 +74,8 @@ lazarus-key/
 
 7. Boot-test the drive on an authorized test computer.
 
+The launcher’s System Info Collector and Network Troubleshooter buttons create timestamped TXT, JSON, and CSV report bundles under `LAZARUSDATA:\Reports`. If that partition is unavailable, they safely fall back to the main Lazarus Key `Reports` directory.
+
 See [`docs/BUILD-WINDOWS.md`](docs/BUILD-WINDOWS.md) for the complete procedure.
 
 ## Safety model
@@ -92,7 +97,7 @@ This repository does not include Ventoy, Hiren's BootCD PE, SystemRescue, or por
 ## Roadmap
 
 - v0.1: project scaffold, launcher, theme, manifest, and validation
-- v0.2: integrate the existing system-info collector and network troubleshooter
+- v0.2: integrated system-info collector and network troubleshooter
 - v0.3: add signed report bundles and automatic redaction
 - v0.4: add optional portable-tool acquisition manifests
 - v1.0: physical BIOS/UEFI test matrix and reproducible release package

@@ -12,16 +12,33 @@ $script:ReportsPath = Join-Path $script:BasePath 'Reports'
 $script:StatusText = $null
 
 function Resolve-ReportsPath {
+    $supportedLabels = @('LAZARUSDATA', 'LAZARUS_DATA')
+
     try {
-        $volume = Get-Volume -FileSystemLabel 'LAZARUS_DATA' -ErrorAction Stop | Select-Object -First 1
-        if ($volume.DriveLetter) {
+        $volume = Get-Volume -ErrorAction Stop |
+            Where-Object { $_.DriveLetter -and ($supportedLabels -contains $_.FileSystemLabel) } |
+            Select-Object -First 1
+        if ($volume) {
             return "$($volume.DriveLetter):\Reports"
         }
     }
     catch {
-        # Use the local fallback when LAZARUS_DATA is absent.
+        # Try the CIM fallback below.
     }
 
+    try {
+        $volume = Get-CimInstance -ClassName Win32_LogicalDisk -ErrorAction Stop |
+            Where-Object { $_.DeviceID -and ($supportedLabels -contains $_.VolumeName) } |
+            Select-Object -First 1
+        if ($volume) {
+            return "$($volume.DeviceID)\Reports"
+        }
+    }
+    catch {
+        # Use the local fallback below.
+    }
+
+    # Use the local fallback when the data partition is absent.
     return (Join-Path $script:BasePath 'Reports')
 }
 
@@ -151,7 +168,7 @@ function Start-OptionalScript {
     if (-not (Test-Path -LiteralPath $path)) {
         [System.Windows.MessageBox]::Show(
             "$DisplayName has not been added yet.`n`nExpected path:`n$path",
-            'Optional tool missing',
+            'Technician tool missing',
             [System.Windows.MessageBoxButton]::OK,
             [System.Windows.MessageBoxImage]::Information
         ) | Out-Null
@@ -231,8 +248,8 @@ $xaml = @'
       <Button x:Name="SystemInfo" Grid.Row="1" Grid.Column="0" Content="System Information&#x0a;Open Microsoft System Information"/>
       <Button x:Name="DeviceManager" Grid.Row="1" Grid.Column="1" Content="Device Manager&#x0a;Inspect hardware and drivers"/>
       <Button x:Name="EventViewer" Grid.Row="1" Grid.Column="2" Content="Event Viewer&#x0a;Inspect Windows event logs"/>
-      <Button x:Name="SystemCollector" Grid.Row="2" Grid.Column="0" Content="System Info Collector&#x0a;Optional Lazarus Key script integration"/>
-      <Button x:Name="NetworkTool" Grid.Row="2" Grid.Column="1" Content="Network Troubleshooter&#x0a;Optional Lazarus Key script integration"/>
+      <Button x:Name="SystemCollector" Grid.Row="2" Grid.Column="0" Content="System Info Collector&#x0a;Export hardware, OS, storage, and network details"/>
+      <Button x:Name="NetworkTool" Grid.Row="2" Grid.Column="1" Content="Network Troubleshooter&#x0a;Run layered PASS, WARN, and FAIL diagnostics"/>
       <Button x:Name="OpenTools" Grid.Row="2" Grid.Column="2" Content="Portable Tools&#x0a;Open the portable utilities folder"/>
     </Grid>
 

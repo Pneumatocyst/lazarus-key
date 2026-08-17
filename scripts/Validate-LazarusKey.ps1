@@ -29,6 +29,12 @@ $projectFiles = @(
     'ventoy\theme\lazarus\background.png',
     'Launcher\LazarusKey.ps1',
     'Launcher\Launch-LazarusKey.cmd',
+    'Scripts\System-Info-Collector\Get-SystemReport.ps1',
+    'Scripts\System-Info-Collector\system-info.ps1',
+    'Scripts\System-Info-Collector\system-report.sh',
+    'Scripts\Network-Troubleshooter\Test-NetworkConnection.ps1',
+    'Scripts\Network-Troubleshooter\network-troubleshooter.ps1',
+    'Scripts\Network-Troubleshooter\network-test.sh',
     'Documentation\images.json'
 )
 

@@ -24,6 +24,16 @@ jobs:
           test -f src/launcher/LazarusKey.ps1
           test -f scripts/Deploy-LazarusKey.ps1
           test -f scripts/Validate-LazarusKey.ps1
+          test -f tools/system-info-collector/Get-SystemReport.ps1
+          test -f tools/system-info-collector/system-info.ps1
+          test -f tools/system-info-collector/system-report.sh
+          test -f tools/network-troubleshooter/Test-NetworkConnection.ps1
+          test -f tools/network-troubleshooter/network-troubleshooter.ps1
+          test -f tools/network-troubleshooter/network-test.sh
+      - name: Validate Bash syntax
+        run: |
+          bash -n tools/system-info-collector/system-report.sh
+          bash -n tools/network-troubleshooter/network-test.sh
 
   powershell:
     name: PowerShell syntax

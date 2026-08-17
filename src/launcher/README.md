@@ -11,11 +11,20 @@ The built-in actions are read-only:
 - Device Manager
 - Event Viewer
 
-The two Lazarus Key script buttons are integration points. They activate automatically when these files are present on the USB:
+The two technician-tool buttons are active in v0.2.0:
 
 ```text
 Scripts/System-Info-Collector/system-info.ps1
 Scripts/Network-Troubleshooter/network-troubleshooter.ps1
 ```
 
-Reports are written to `LAZARUS_DATA:\Reports` when that volume is available. Otherwise the launcher creates a local `Reports` directory on the main Lazarus Key volume.
+Reports are written to `LAZARUSDATA:\Reports` when that volume is available. Otherwise the launcher creates a local `Reports` directory on the main Lazarus Key volume.
+
+Each tool creates a timestamped subfolder and exports TXT, JSON, and CSV reports. The Windows wrappers open the completed folder automatically and keep their console open so the technician can review the result summary.
+
+Matching Bash editions are included beside the Windows scripts for manual use from Linux rescue environments:
+
+```text
+Scripts/System-Info-Collector/system-report.sh
+Scripts/Network-Troubleshooter/network-test.sh
+```

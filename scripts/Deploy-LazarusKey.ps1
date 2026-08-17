@@ -62,6 +62,14 @@ $copies = @(
     @{ Source = 'src\launcher\LazarusKey.ps1'; Destination = 'Launcher\LazarusKey.ps1' },
     @{ Source = 'src\launcher\Launch-LazarusKey.cmd'; Destination = 'Launcher\Launch-LazarusKey.cmd' },
     @{ Source = 'src\launcher\README.md'; Destination = 'Launcher\README.md' },
+    @{ Source = 'tools\system-info-collector\Get-SystemReport.ps1'; Destination = 'Scripts\System-Info-Collector\Get-SystemReport.ps1' },
+    @{ Source = 'tools\system-info-collector\system-info.ps1'; Destination = 'Scripts\System-Info-Collector\system-info.ps1' },
+    @{ Source = 'tools\system-info-collector\system-report.sh'; Destination = 'Scripts\System-Info-Collector\system-report.sh' },
+    @{ Source = 'tools\system-info-collector\README.md'; Destination = 'Scripts\System-Info-Collector\README.md' },
+    @{ Source = 'tools\network-troubleshooter\Test-NetworkConnection.ps1'; Destination = 'Scripts\Network-Troubleshooter\Test-NetworkConnection.ps1' },
+    @{ Source = 'tools\network-troubleshooter\network-troubleshooter.ps1'; Destination = 'Scripts\Network-Troubleshooter\network-troubleshooter.ps1' },
+    @{ Source = 'tools\network-troubleshooter\network-test.sh'; Destination = 'Scripts\Network-Troubleshooter\network-test.sh' },
+    @{ Source = 'tools\network-troubleshooter\README.md'; Destination = 'Scripts\Network-Troubleshooter\README.md' },
     @{ Source = 'docs\USB-QUICK-START.md'; Destination = 'Documentation\QUICK-START.md' },
     @{ Source = 'manifests\images.json'; Destination = 'Documentation\images.json' }
 )
@@ -81,5 +89,6 @@ Write-Host ''
 Write-Host 'Lazarus Key project files deployed.' -ForegroundColor Green
 Write-Host 'Next:'
 Write-Host "  1. Add the required ISO files under $root\ISO."
-Write-Host "  2. Run .\scripts\Validate-LazarusKey.ps1 -Root $root\"
-Write-Host '  3. Boot-test the USB on an authorized test system.'
+Write-Host '  2. Test both technician-tool buttons from the Windows launcher.'
+Write-Host "  3. Run .\scripts\Validate-LazarusKey.ps1 -Root $root\"
+Write-Host '  4. Boot-test the USB on an authorized test system.'
