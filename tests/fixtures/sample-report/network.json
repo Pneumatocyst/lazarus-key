@@ -1,0 +1,13 @@
+{
+  "computer_name": "LAB-WS-042",
+  "current_user": "CONTOSO\\alex.smith",
+  "serial_number": "SN-FAKE-123456",
+  "ipv4": [
+    "192.168.50.25",
+    "203.0.113.42"
+  ],
+  "ipv6": "2001:db8::1234",
+  "mac": "AA-BB-CC-DD-EE-FF",
+  "dns_suffix": "lab.example.invalid",
+  "support_url": "https://support.example.invalid/ticket/12345"
+}

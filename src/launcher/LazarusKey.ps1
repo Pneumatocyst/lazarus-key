@@ -10,6 +10,11 @@ Add-Type -AssemblyName PresentationCore
 $script:BasePath = Split-Path -Parent $PSScriptRoot
 $script:ReportsPath = Join-Path $script:BasePath 'Reports'
 $script:StatusText = $null
+$script:CaseModulePath = Join-Path $script:BasePath 'Scripts\Case-Workspace\LazarusCase.psm1'
+
+if (Test-Path -LiteralPath $script:CaseModulePath -PathType Leaf) {
+    Import-Module $script:CaseModulePath -Force -ErrorAction SilentlyContinue
+}
 
 function Resolve-ReportsPath {
     $supportedLabels = @('LAZARUSDATA', 'LAZARUS_DATA')
@@ -58,6 +63,12 @@ function Open-PathSafe {
 }
 
 function New-ReportDirectory {
+    param([string]$ToolName = 'Launcher')
+
+    if (Get-Command New-LazarusCaseReportDirectory -ErrorAction SilentlyContinue) {
+        $caseReportPath = New-LazarusCaseReportDirectory -ToolName $ToolName
+        if (-not [string]::IsNullOrWhiteSpace($caseReportPath)) { return $caseReportPath }
+    }
     $script:ReportsPath = Resolve-ReportsPath
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $computer = $env:COMPUTERNAME -replace '[^A-Za-z0-9_-]', '_'
@@ -86,7 +97,7 @@ function Write-CommandOutput {
 
 function New-SystemReport {
     Set-Status 'Collecting system information...'
-    $output = New-ReportDirectory
+    $output = New-ReportDirectory -ToolName 'Support-Report'
 
     Write-CommandOutput -FilePath (Join-Path $output 'system.txt') -Title 'System Information' -Command {
         Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber,
@@ -124,7 +135,7 @@ function New-SystemReport {
 
 function New-NetworkSnapshot {
     Set-Status 'Collecting network snapshot...'
-    $output = New-ReportDirectory
+    $output = New-ReportDirectory -ToolName 'Network-Snapshot'
     $file = Join-Path $output 'network-diagnostics.txt'
     Write-CommandOutput -FilePath $file -Title 'Network Diagnostics' -Command {
         ipconfig.exe /all
@@ -145,7 +156,7 @@ function New-NetworkSnapshot {
 
 function New-StorageSnapshot {
     Set-Status 'Collecting storage snapshot...'
-    $output = New-ReportDirectory
+    $output = New-ReportDirectory -ToolName 'Storage-Snapshot'
     $file = Join-Path $output 'storage-diagnostics.txt'
     Write-CommandOutput -FilePath $file -Title 'Storage Diagnostics' -Command {
         Get-Disk | Format-List Number, FriendlyName, SerialNumber, FirmwareVersion, HealthStatus,
@@ -250,7 +261,7 @@ $xaml = @'
       <Button x:Name="EventViewer" Grid.Row="1" Grid.Column="2" Content="Event Viewer&#x0a;Inspect Windows event logs"/>
       <Button x:Name="SystemCollector" Grid.Row="2" Grid.Column="0" Content="System Info Collector&#x0a;Export hardware, OS, storage, and network details"/>
       <Button x:Name="NetworkTool" Grid.Row="2" Grid.Column="1" Content="Network Troubleshooter&#x0a;Run layered PASS, WARN, and FAIL diagnostics"/>
-      <Button x:Name="OpenTools" Grid.Row="2" Grid.Column="2" Content="Portable Tools&#x0a;Open the portable utilities folder"/>
+      <Button x:Name="PackageReports" Grid.Row="2" Grid.Column="2" Content="Package Reports&#x0a;Redact, hash, verify, and ZIP reports for sharing"/>
     </Grid>
 
     <Grid Grid.Row="3" Margin="7,14,7,0">
@@ -258,10 +269,14 @@ $xaml = @'
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
       </Grid.ColumnDefinitions>
       <TextBlock x:Name="StatusText" Grid.Column="0" Text="Ready" Foreground="#98A2B3" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-      <Button x:Name="OpenReports" Grid.Column="1" Content="Reports" Padding="18,8" Margin="6,0"/>
-      <Button x:Name="OpenDocs" Grid.Column="2" Content="Documentation" Padding="18,8" Margin="6,0,0,0"/>
+      <Button x:Name="OpenCases" Grid.Column="1" Content="Case Workspace" Padding="18,8" Margin="6,0"/>
+      <Button x:Name="OpenTools" Grid.Column="2" Content="Tool Manager" Padding="18,8" Margin="6,0"/>
+      <Button x:Name="OpenReports" Grid.Column="3" Content="Reports" Padding="18,8" Margin="6,0"/>
+      <Button x:Name="OpenDocs" Grid.Column="4" Content="Documentation" Padding="18,8" Margin="6,0,0,0"/>
     </Grid>
   </Grid>
 </Window>
@@ -284,8 +299,23 @@ $window.FindName('SystemCollector').Add_Click({
 $window.FindName('NetworkTool').Add_Click({
     Start-OptionalScript -RelativePath 'Scripts\Network-Troubleshooter\network-troubleshooter.ps1' -DisplayName 'Network Troubleshooter'
 })
-$window.FindName('OpenTools').Add_Click({ Open-PathSafe -Path (Join-Path $script:BasePath 'PortableTools') })
-$window.FindName('OpenReports').Add_Click({ Open-PathSafe -Path $script:ReportsPath })
+$window.FindName('PackageReports').Add_Click({
+    Start-OptionalScript -RelativePath 'Scripts\Report-Packager\report-packager.ps1' -DisplayName 'Safe Report Packager'
+})
+$window.FindName('OpenCases').Add_Click({
+    Start-OptionalScript -RelativePath 'Scripts\Case-Workspace\case-workspace.ps1' -DisplayName 'Case Workspace'
+})
+$window.FindName('OpenTools').Add_Click({
+    Start-OptionalScript -RelativePath 'Scripts\Portable-Tools\portable-tools-manager.ps1' -DisplayName 'Portable Tools Manager'
+})
+$window.FindName('OpenReports').Add_Click({
+    if (Get-Command Get-LazarusActiveCase -ErrorAction SilentlyContinue) {
+        $activeCase = Get-LazarusActiveCase
+        if ($activeCase) { Open-PathSafe -Path $activeCase.ReportsPath; return }
+    }
+    $script:ReportsPath = Resolve-ReportsPath
+    Open-PathSafe -Path $script:ReportsPath
+})
 $window.FindName('OpenDocs').Add_Click({ Open-PathSafe -Path (Join-Path $script:BasePath 'Documentation') })
 
 $admin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
@@ -298,5 +328,10 @@ else {
     'Ready - standard user; some collections may be limited'
 }
 Set-Status -Message $adminStatus
+
+if (Get-Command Get-LazarusActiveCase -ErrorAction SilentlyContinue) {
+    $activeCase = Get-LazarusActiveCase
+    if ($activeCase) { Set-Status -Message "$adminStatus | Active case: $($activeCase.CaseId)" }
+}
 
 $window.ShowDialog() | Out-Null

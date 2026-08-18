@@ -1,0 +1,2 @@
+"CollectedAt","ComputerName","CurrentUser","SerialNumber","IPAddresses","DefaultGateways","DNSServers"
+"2026-08-18T12:00:00-05:00","LAB-WS-042","CONTOSO\alex.smith","SN-FAKE-123456","192.168.50.25; 2001:db8::1234","192.168.50.1","192.168.50.53"

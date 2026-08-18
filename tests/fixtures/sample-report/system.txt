@@ -1,0 +1,19 @@
+SYSTEM INFORMATION REPORT
+Generated: 2026-08-18T12:00:00-05:00
+========================================================================
+
+SYSTEM
+  Computer name : LAB-WS-042
+  Current user  : CONTOSO\alex.smith
+  Manufacturer  : Example Computer Company
+  Model         : Example Workstation
+  Serial number : SN-FAKE-123456
+  Profile path  : C:\Users\alex.smith\Documents
+  Contact       : alex.smith@example.invalid
+
+NETWORK
+  IP addresses  : 192.168.50.25, 203.0.113.42, 2001:db8::1234
+  MAC address   : AA-BB-CC-DD-EE-FF
+  DNS suffix    : lab.example.invalid
+  Support URL   : https://support.example.invalid/ticket/12345
+  Device GUID   : 11111111-2222-3333-4444-555555555555

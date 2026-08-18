@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "project_version": "0.5.0",
+  "updated": "2026-08-18",
+  "policy": {
+    "redistribute_binaries": false,
+    "require_https": true,
+    "require_sha256": true,
+    "notes": "The repository contains metadata and installer code only. Every archive is downloaded directly from an upstream source and must match its pinned SHA-256 hash."
+  },
+  "tools": [
+    {
+      "id": "everything",
+      "name": "Everything Search",
+      "version": "1.4.1.1032",
+      "category": "File Search",
+      "description": "Fast filename search for attached and internal Windows volumes.",
+      "architecture": "x64",
+      "default_selected": true,
+      "homepage": "https://www.voidtools.com/",
+      "download_page": "https://www.voidtools.com/downloads/",
+      "download_url": "https://www.voidtools.com/Everything-1.4.1.1032.x64.zip",
+      "allowed_hosts": ["www.voidtools.com"],
+      "archive_type": "zip",
+      "archive_name": "Everything-1.4.1.1032.x64.zip",
+      "archive_size_bytes": 1906504,
+      "installed_size_estimate_bytes": 3305531,
+      "sha256": "698df475ec44e638f66f1b6a32d28fea613cec78d3b6310e6abe53431eeb940c",
+      "install_directory": "Everything",
+      "strip_single_root": false,
+      "license": {
+        "spdx": "MIT",
+        "name": "Everything license",
+        "url": "https://www.voidtools.com/License.txt",
+        "redistribution": "Permitted by license; Lazarus Key still downloads from upstream."
+      },
+      "verification": {
+        "authenticode_required": false,
+        "publisher_contains": null
+      },
+      "launchers": [
+        {"name": "Everything", "path": "everything.exe", "requires_admin": false}
+      ]
+    },
+    {
+      "id": "notepad-plus-plus",
+      "name": "Notepad++ Portable",
+      "version": "8.9.6.1",
+      "category": "Text and Logs",
+      "description": "Portable text, log, configuration, and source-code editor.",
+      "architecture": "x64",
+      "default_selected": true,
+      "homepage": "https://notepad-plus-plus.org/",
+      "download_page": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/tag/v8.9.6.1",
+      "download_url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.9.6.1/npp.8.9.6.1.portable.x64.zip",
+      "allowed_hosts": ["github.com", "objects.githubusercontent.com", "release-assets.githubusercontent.com"],
+      "archive_type": "zip",
+      "archive_name": "npp.8.9.6.1.portable.x64.zip",
+      "archive_size_bytes": 8111275,
+      "installed_size_estimate_bytes": 26319252,
+      "sha256": "e114e6c54db96b85e9ffe4f6c02b135378099b16383d6a2adbf08991b755e02a",
+      "install_directory": "NotepadPlusPlus",
+      "strip_single_root": false,
+      "license": {
+        "spdx": "GPL-3.0-or-later",
+        "name": "GNU General Public License v3 or later",
+        "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/LICENSE",
+        "redistribution": "Permitted under GPL terms; Lazarus Key still downloads from upstream."
+      },
+      "verification": {
+        "authenticode_required": false,
+        "publisher_contains": null
+      },
+      "launchers": [
+        {"name": "Notepad++", "path": "notepad++.exe", "requires_admin": false}
+      ]
+    },
+    {
+      "id": "testdisk",
+      "name": "TestDisk and PhotoRec",
+      "version": "7.2",
+      "category": "Data Recovery",
+      "description": "Partition recovery, filesystem analysis, and signature-based file recovery.",
+      "architecture": "x64",
+      "default_selected": true,
+      "homepage": "https://www.cgsecurity.org/wiki/TestDisk",
+      "download_page": "https://www.cgsecurity.org/wiki/Download_TestDisk",
+      "download_url": "https://www.cgsecurity.org/testdisk-7.2.win64.zip",
+      "allowed_hosts": ["www.cgsecurity.org"],
+      "archive_type": "zip",
+      "archive_name": "testdisk-7.2.win64.zip",
+      "archive_size_bytes": 27354549,
+      "installed_size_estimate_bytes": 79872965,
+      "sha256": "e97e203ce77b6b1a3a37d01beccf069dc6c4632b579ffbb82ae739cdda229f38",
+      "install_directory": "TestDisk",
+      "strip_single_root": true,
+      "license": {
+        "spdx": "GPL-2.0-or-later",
+        "name": "GNU General Public License v2 or later",
+        "url": "https://www.cgsecurity.org/wiki/TestDisk",
+        "redistribution": "Permitted under GPL terms; Lazarus Key still downloads from upstream."
+      },
+      "verification": {
+        "authenticode_required": false,
+        "publisher_contains": null
+      },
+      "launchers": [
+        {"name": "TestDisk", "path": "testdisk_win.exe", "requires_admin": true},
+        {"name": "QPhotoRec", "path": "qphotorec_win.exe", "requires_admin": true},
+        {"name": "PhotoRec", "path": "photorec_win.exe", "requires_admin": true}
+      ]
+    },
+    {
+      "id": "crystaldiskinfo",
+      "name": "CrystalDiskInfo",
+      "version": "9.9.1",
+      "category": "Storage Health",
+      "description": "SMART, temperature, and health information for supported HDDs, SSDs, and NVMe devices.",
+      "architecture": "x64",
+      "default_selected": true,
+      "homepage": "https://crystalmark.info/en/software/crystaldiskinfo/",
+      "download_page": "https://sourceforge.net/projects/crystaldiskinfo/files/9.9.1/",
+      "download_url": "https://sourceforge.net/projects/crystaldiskinfo/files/9.9.1/CrystalDiskInfo9_9_1.zip/download",
+      "allowed_hosts": ["sourceforge.net", "downloads.sourceforge.net", "*.dl.sourceforge.net"],
+      "archive_type": "zip",
+      "archive_name": "CrystalDiskInfo9_9_1.zip",
+      "archive_size_bytes": 8543260,
+      "installed_size_estimate_bytes": 20004594,
+      "sha256": "5a3d0be9d5b886551ab674cc7db103cf6caeecf023c227d5b56b400ebae7ee69",
+      "install_directory": "CrystalDiskInfo",
+      "strip_single_root": false,
+      "license": {
+        "spdx": "MIT",
+        "name": "MIT License with bundled-component notices",
+        "url": "https://github.com/hiyohiyo/CrystalDiskInfo/blob/master/LICENSE.txt",
+        "redistribution": "Source is MIT; the archive includes component notices. Lazarus Key downloads from upstream."
+      },
+      "verification": {
+        "authenticode_required": false,
+        "publisher_contains": null
+      },
+      "launchers": [
+        {"name": "CrystalDiskInfo", "path": "DiskInfo64.exe", "requires_admin": true}
+      ]
+    },
+    {
+      "id": "sysinternals-suite",
+      "name": "Microsoft Sysinternals Suite",
+      "version": "2026.07",
+      "category": "Advanced Diagnostics",
+      "description": "Microsoft troubleshooting utilities including Process Explorer, Autoruns, TCPView, RAMMap, and Process Monitor.",
+      "architecture": "x64",
+      "default_selected": false,
+      "homepage": "https://learn.microsoft.com/sysinternals/",
+      "download_page": "https://learn.microsoft.com/sysinternals/downloads/sysinternals-suite",
+      "download_url": "https://download.sysinternals.com/files/SysinternalsSuite.zip",
+      "allowed_hosts": ["download.sysinternals.com"],
+      "archive_type": "zip",
+      "archive_name": "SysinternalsSuite.zip",
+      "archive_size_bytes": 201073100,
+      "installed_size_estimate_bytes": 285440352,
+      "sha256": "6d471cfb9509cdd1dcec172c8dee330d8f0783dc9ede5ea720107f7804b2a10b",
+      "install_directory": "Sysinternals",
+      "strip_single_root": false,
+      "license": {
+        "spdx": "LicenseRef-Microsoft-Sysinternals",
+        "name": "Sysinternals Software License Terms",
+        "url": "https://learn.microsoft.com/sysinternals/license-faq",
+        "redistribution": "Redistribution is prohibited. The manager downloads directly from Microsoft for the user."
+      },
+      "verification": {
+        "authenticode_required": true,
+        "publisher_contains": "Microsoft Corporation"
+      },
+      "launchers": [
+        {"name": "Process Explorer", "path": "procexp64.exe", "requires_admin": true},
+        {"name": "Autoruns", "path": "Autoruns64.exe", "requires_admin": true},
+        {"name": "TCPView", "path": "tcpview64.exe", "requires_admin": true},
+        {"name": "Process Monitor", "path": "Procmon64.exe", "requires_admin": true},
+        {"name": "RAMMap", "path": "RAMMap64.exe", "requires_admin": true}
+      ]
+    }
+  ]
+}

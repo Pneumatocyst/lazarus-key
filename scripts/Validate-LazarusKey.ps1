@@ -35,11 +35,50 @@ $projectFiles = @(
     'Scripts\Network-Troubleshooter\Test-NetworkConnection.ps1',
     'Scripts\Network-Troubleshooter\network-troubleshooter.ps1',
     'Scripts\Network-Troubleshooter\network-test.sh',
-    'Documentation\images.json'
+    'Scripts\Report-Packager\New-SafeReportBundle.ps1',
+    'Scripts\Report-Packager\Test-SafeReportBundle.ps1',
+    'Scripts\Report-Packager\report-packager.ps1',
+    'Scripts\Portable-Tools\Install-PortableTool.ps1',
+    'Scripts\Portable-Tools\Test-PortableToolsCatalog.ps1',
+    'Scripts\Portable-Tools\Test-InstalledPortableTools.ps1',
+    'Scripts\Portable-Tools\portable-tools-manager.ps1',
+    'Scripts\Case-Workspace\LazarusCase.psm1',
+    'Scripts\Case-Workspace\New-LazarusCaseHandoff.ps1',
+    'Scripts\Case-Workspace\case-workspace.ps1',
+    'Documentation\REPORT-PRIVACY.md',
+    'Documentation\PORTABLE-TOOLS.md',
+    'Documentation\CASE-WORKSPACE.md',
+    'Documentation\RELEASE-CHECKLIST-v0.5.0.md',
+    'Documentation\RELEASE-NOTES-v0.5.0.md',
+    'Documentation\VERSION',
+    'Documentation\images.json',
+    'Documentation\portable-tools.json'
 )
 
 foreach ($file in $projectFiles) {
     [void](Test-RequiredFile -RelativePath $file)
+}
+
+$sourceVersionPath = Join-Path (Split-Path -Parent $PSScriptRoot) 'VERSION'
+$deployedVersionPath = Join-Path $rootPath 'Documentation\VERSION'
+if ((Test-Path -LiteralPath $sourceVersionPath) -and (Test-Path -LiteralPath $deployedVersionPath)) {
+    $sourceVersion = (Get-Content -LiteralPath $sourceVersionPath -Raw).Trim()
+    $deployedVersion = (Get-Content -LiteralPath $deployedVersionPath -Raw).Trim()
+    if ($sourceVersion -ne $deployedVersion) {
+        $errors.Add("Deployed project version is '$deployedVersion'; expected '$sourceVersion'.")
+    }
+}
+
+$portableCatalogPath = Join-Path $rootPath 'Documentation\portable-tools.json'
+$portableCatalogValidator = Join-Path $rootPath 'Scripts\Portable-Tools\Test-PortableToolsCatalog.ps1'
+if ((Test-Path -LiteralPath $portableCatalogPath) -and (Test-Path -LiteralPath $portableCatalogValidator)) {
+    try {
+        $portableCatalogResult = & $portableCatalogValidator -CatalogPath $portableCatalogPath -PassThru
+        if (-not $portableCatalogResult.Valid) {
+            foreach ($catalogError in $portableCatalogResult.Errors) { $errors.Add("Portable tools catalog: $catalogError") }
+        }
+    }
+    catch { $errors.Add("Portable tools catalog validation failed: $($_.Exception.Message)") }
 }
 
 $ventoyJsonPath = Join-Path $rootPath 'ventoy\ventoy.json'

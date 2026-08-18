@@ -8,7 +8,9 @@ $failed = $false
 
 $jsonFiles = @(
     'config\ventoy\ventoy.json',
-    'manifests\images.json'
+    'manifests\images.json',
+    'manifests\portable-tools.json',
+    'tests\fixtures\sample-report\network.json'
 )
 
 foreach ($relative in $jsonFiles) {
@@ -23,7 +25,8 @@ foreach ($relative in $jsonFiles) {
     }
 }
 
-$powerShellFiles = Get-ChildItem -Path $projectRoot -Filter '*.ps1' -Recurse
+$powerShellFiles = @(Get-ChildItem -Path $projectRoot -File -Recurse |
+    Where-Object { $_.Extension -in @('.ps1', '.psm1') })
 foreach ($file in $powerShellFiles) {
     $tokens = $null
     $parseErrors = $null

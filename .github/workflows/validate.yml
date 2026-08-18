@@ -17,6 +17,8 @@ jobs:
         run: |
           python -m json.tool config/ventoy/ventoy.json > /dev/null
           python -m json.tool manifests/images.json > /dev/null
+          python -m json.tool manifests/portable-tools.json > /dev/null
+          python -m json.tool tests/fixtures/sample-report/network.json > /dev/null
       - name: Check required files
         run: |
           test -f config/ventoy/theme/lazarus/theme.txt
@@ -30,6 +32,26 @@ jobs:
           test -f tools/network-troubleshooter/Test-NetworkConnection.ps1
           test -f tools/network-troubleshooter/network-troubleshooter.ps1
           test -f tools/network-troubleshooter/network-test.sh
+          test -f tools/report-packager/New-SafeReportBundle.ps1
+          test -f tools/report-packager/Test-SafeReportBundle.ps1
+          test -f tools/report-packager/report-packager.ps1
+          test -f tests/Test-ReportPackager.ps1
+          test -f tools/portable-tools/Install-PortableTool.ps1
+          test -f tools/portable-tools/Test-PortableToolsCatalog.ps1
+          test -f tools/portable-tools/Test-InstalledPortableTools.ps1
+          test -f tools/portable-tools/portable-tools-manager.ps1
+          test -f tests/Test-PortableTools.ps1
+          test -f tools/case-workspace/LazarusCase.psm1
+          test -f tools/case-workspace/New-LazarusCaseHandoff.ps1
+          test -f tools/case-workspace/case-workspace.ps1
+          test -f tests/Test-CaseWorkspace.ps1
+          test -f tests/Test-ReleaseEngineering.ps1
+          test -f scripts/Build-Release.ps1
+          test -f scripts/Test-ReleaseArchive.ps1
+          test -f scripts/Test-WindowsReleaseCandidate.ps1
+          test -f docs/RELEASE-CHECKLIST-v0.5.0.md
+          test -f docs/RELEASE-NOTES-v0.5.0.md
+          test -f .github/workflows/release.yml
       - name: Validate Bash syntax
         run: |
           bash -n tools/system-info-collector/system-report.sh
@@ -43,3 +65,15 @@ jobs:
       - name: Parse PowerShell source
         shell: pwsh
         run: .\scripts\Test-Project.ps1
+      - name: Test safe report packaging
+        shell: powershell
+        run: .\tests\Test-ReportPackager.ps1
+      - name: Test portable tools catalog and installer
+        shell: powershell
+        run: .\tests\Test-PortableTools.ps1
+      - name: Test case workspace and handoff
+        shell: powershell
+        run: .\tests\Test-CaseWorkspace.ps1
+      - name: Build and verify release archive
+        shell: powershell
+        run: .\tests\Test-ReleaseEngineering.ps1

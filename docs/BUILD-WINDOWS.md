@@ -39,6 +39,7 @@ Create these folders:
 ```text
 LAZARUSDATA:\Drivers
 LAZARUSDATA:\Reports
+LAZARUSDATA:\Cases
 LAZARUSDATA:\Recovered-Files
 LAZARUSDATA:\Technician-Notes
 ```
@@ -95,6 +96,43 @@ Test the **System Info Collector** and **Network Troubleshooter** buttons. Each 
 
 If `LAZARUSDATA` is unavailable, confirm that the tools fall back to `LAZARUSKEY:\Reports` without failing.
 
+Test **Package Reports** with a newly generated report folder:
+
+1. Select the report folder in the folder picker.
+2. Choose **Strict** redaction.
+3. Confirm a ZIP and companion `.sha256` file appear under `LAZARUSDATA:\Reports\Safe-Bundles`.
+4. Extract the ZIP and open `manifest.json`, `SHA256SUMS.txt`, and each sanitized report.
+5. Confirm the original report hashes are unchanged.
+6. Run `Scripts\Report-Packager\Test-SafeReportBundle.ps1 -BundlePath <zip>` and confirm verification passes.
+7. Review the sanitized content manually before sharing it.
+
+Test **Tool Manager** without installing everything at once:
+
+1. Open Tool Manager and inspect each tool's source, version, size, license, and SHA-256 value.
+2. Install the small default **Everything Search** entry first.
+3. Confirm the manager downloads from the cataloged official URL and reports a successful verified installation.
+4. Select Everything and use **Launch Primary**; confirm it opens only after deliberate selection.
+5. Use **Verify Installed** and confirm Everything is `Valid` while unselected tools are `NotInstalled`.
+6. Re-run installation, decline the replacement prompt, and confirm the current folder remains unchanged.
+7. Re-run and approve replacement; confirm the managed update succeeds and verifies.
+8. Install the remaining defaults only if the USB has enough free space.
+9. Test Sysinternals separately. Confirm its archive hash and Microsoft publisher-signature checks pass.
+10. Confirm no downloaded ZIP, EXE, installed tool directory, or installation receipt exists in the source checkout or release ZIP.
+
+Pinned hashes intentionally fail when an upstream publisher replaces an archive. Treat a mismatch as a catalog-maintenance event, not as permission to bypass verification.
+
+Test **Case Workspace**:
+
+1. Create a case with a synthetic ticket, customer, and device name; confirm it becomes active.
+2. Run a built-in Support Report, System Info Collector, and Network Troubleshooter.
+3. Confirm every new output folder appears beneath the active case's `Reports` directory.
+4. Add a note, move the status to In Progress, and open the HTML summary.
+5. Confirm metadata and report filenames render correctly and HTML-sensitive characters are escaped.
+6. Create a Strict handoff and verify its ZIP with `Scripts\Report-Packager\Test-SafeReportBundle.ps1`.
+7. Confirm case title, ticket, customer, device, technician, host, user, serial, and network identities are absent from the sanitized content.
+8. Confirm original report hashes remain unchanged.
+9. Clear the active case and confirm the next report returns to the normal `Reports` directory.
+
 ## 8. Boot-test
 
 Follow `TEST-PLAN.md`. At minimum, confirm the themed menu, Hiren's BootCD PE, SystemRescue, keyboard input, storage visibility, network hardware, and a clean return to the local operating system.
@@ -112,3 +150,13 @@ The first physically verified build used:
 - Hiren's BootCD PE x64 1.0.8 and SystemRescue 13.02 amd64
 
 Both ISO files passed the pinned SHA-256 validation before boot testing. The custom Ventoy theme, both rescue environments, Windows launcher, and report output to `LAZARUSDATA` were verified successfully.
+
+## Release qualification
+
+For v0.5.0 and later, use the versioned release checklist and the combined Windows gate after deployment:
+
+```powershell
+.\scripts\Test-WindowsReleaseCandidate.ps1 -UsbRoot E:\
+```
+
+Complete the GUI and boot checks in `docs\RELEASE-CHECKLIST-v0.5.0.md`, then rerun with `-ManualChecksPassed`. Do not create the release tag until the final output is `READY FOR RELEASE`.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "project_version": "0.2.0",
-  "updated": "2026-08-17",
+  "project_version": "0.5.0",
+  "updated": "2026-08-18",
   "images": [
     {
       "id": "hirens-bootcd-pe",

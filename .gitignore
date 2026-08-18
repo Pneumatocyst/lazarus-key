@@ -9,6 +9,7 @@
 *.7z
 release/
 Reports/
+Cases/
 Recovered-Files/
 PortableTools/*
 !PortableTools/README.md

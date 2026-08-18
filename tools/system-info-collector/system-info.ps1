@@ -39,9 +39,19 @@ function Resolve-LazarusReportsPath {
 
 $reportsRoot = Resolve-LazarusReportsPath
 $safeComputer = $env:COMPUTERNAME -replace '[^A-Za-z0-9._-]', '_'
-$runDirectory = Join-Path $reportsRoot (
-    'System-Info-{0}-{1}' -f $safeComputer, (Get-Date -Format 'yyyyMMdd-HHmmss')
-)
+$runDirectory = $null
+$caseModule = Join-Path (Split-Path -Parent $PSScriptRoot) 'case-workspace\LazarusCase.psm1'
+if (Test-Path -LiteralPath $caseModule -PathType Leaf) {
+    Import-Module $caseModule -Force -ErrorAction SilentlyContinue
+    if (Get-Command New-LazarusCaseReportDirectory -ErrorAction SilentlyContinue) {
+        $runDirectory = New-LazarusCaseReportDirectory -ToolName 'System-Info'
+    }
+}
+if ([string]::IsNullOrWhiteSpace($runDirectory)) {
+    $runDirectory = Join-Path $reportsRoot (
+        'System-Info-{0}-{1}' -f $safeComputer, (Get-Date -Format 'yyyyMMdd-HHmmss')
+    )
+}
 $collector = Join-Path $PSScriptRoot 'Get-SystemReport.ps1'
 
 try {

@@ -1,0 +1,77 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - 'release/v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  windows-validation:
+    name: Windows PowerShell 5.1 validation
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify release ref matches VERSION
+        shell: pwsh
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          $expectedTag = "v$version"
+          $refName = "${{ github.ref_name }}"
+          if ($refName -notin @($expectedTag, "release/$expectedTag")) {
+            throw "Release ref '$refName' does not match VERSION: $expectedTag"
+          }
+      - name: Parse project source
+        shell: powershell
+        run: .\scripts\Test-Project.ps1
+      - name: Test safe report packaging
+        shell: powershell
+        run: .\tests\Test-ReportPackager.ps1
+      - name: Test portable tools
+        shell: powershell
+        run: .\tests\Test-PortableTools.ps1
+      - name: Test case workspace
+        shell: powershell
+        run: .\tests\Test-CaseWorkspace.ps1
+      - name: Test release engineering
+        shell: powershell
+        run: .\tests\Test-ReleaseEngineering.ps1
+
+  publish:
+    name: Build, verify, and publish
+    needs: windows-validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build release archive
+        shell: pwsh
+        run: .\scripts\Build-Release.ps1
+      - name: Verify release archive
+        shell: pwsh
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          .\scripts\Test-ReleaseArchive.ps1 `
+            -ArchivePath "release/Lazarus_Key_v$version.zip" `
+            -ExpectedVersion $version
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          version="$(tr -d '\r\n' < VERSION)"
+          notes="docs/RELEASE-NOTES-v${version}.md"
+          test -f "$notes"
+          if gh release view "v${version}" >/dev/null 2>&1; then
+            echo "Release v${version} already exists; refusing to replace it."
+            exit 1
+          fi
+          gh release create "v${version}" \
+            "release/Lazarus_Key_v${version}.zip" \
+            "release/Lazarus_Key_v${version}.zip.sha256" \
+            --target "${GITHUB_SHA}" \
+            --title "Lazarus Key v${version}" \
+            --notes-file "$notes"

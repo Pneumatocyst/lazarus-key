@@ -34,8 +34,12 @@ $directories = @(
     'PortableTools',
     'Scripts\System-Info-Collector',
     'Scripts\Network-Troubleshooter',
+    'Scripts\Report-Packager',
+    'Scripts\Portable-Tools',
+    'Scripts\Case-Workspace',
     'Documentation',
     'Reports',
+    'Cases',
     'ventoy\theme\lazarus'
 )
 
@@ -70,8 +74,28 @@ $copies = @(
     @{ Source = 'tools\network-troubleshooter\network-troubleshooter.ps1'; Destination = 'Scripts\Network-Troubleshooter\network-troubleshooter.ps1' },
     @{ Source = 'tools\network-troubleshooter\network-test.sh'; Destination = 'Scripts\Network-Troubleshooter\network-test.sh' },
     @{ Source = 'tools\network-troubleshooter\README.md'; Destination = 'Scripts\Network-Troubleshooter\README.md' },
+    @{ Source = 'tools\report-packager\New-SafeReportBundle.ps1'; Destination = 'Scripts\Report-Packager\New-SafeReportBundle.ps1' },
+    @{ Source = 'tools\report-packager\Test-SafeReportBundle.ps1'; Destination = 'Scripts\Report-Packager\Test-SafeReportBundle.ps1' },
+    @{ Source = 'tools\report-packager\report-packager.ps1'; Destination = 'Scripts\Report-Packager\report-packager.ps1' },
+    @{ Source = 'tools\report-packager\README.md'; Destination = 'Scripts\Report-Packager\README.md' },
+    @{ Source = 'tools\portable-tools\Install-PortableTool.ps1'; Destination = 'Scripts\Portable-Tools\Install-PortableTool.ps1' },
+    @{ Source = 'tools\portable-tools\Test-PortableToolsCatalog.ps1'; Destination = 'Scripts\Portable-Tools\Test-PortableToolsCatalog.ps1' },
+    @{ Source = 'tools\portable-tools\Test-InstalledPortableTools.ps1'; Destination = 'Scripts\Portable-Tools\Test-InstalledPortableTools.ps1' },
+    @{ Source = 'tools\portable-tools\portable-tools-manager.ps1'; Destination = 'Scripts\Portable-Tools\portable-tools-manager.ps1' },
+    @{ Source = 'tools\portable-tools\README.md'; Destination = 'Scripts\Portable-Tools\README.md' },
+    @{ Source = 'tools\case-workspace\LazarusCase.psm1'; Destination = 'Scripts\Case-Workspace\LazarusCase.psm1' },
+    @{ Source = 'tools\case-workspace\New-LazarusCaseHandoff.ps1'; Destination = 'Scripts\Case-Workspace\New-LazarusCaseHandoff.ps1' },
+    @{ Source = 'tools\case-workspace\case-workspace.ps1'; Destination = 'Scripts\Case-Workspace\case-workspace.ps1' },
+    @{ Source = 'tools\case-workspace\README.md'; Destination = 'Scripts\Case-Workspace\README.md' },
     @{ Source = 'docs\USB-QUICK-START.md'; Destination = 'Documentation\QUICK-START.md' },
-    @{ Source = 'manifests\images.json'; Destination = 'Documentation\images.json' }
+    @{ Source = 'docs\REPORT-PRIVACY.md'; Destination = 'Documentation\REPORT-PRIVACY.md' },
+    @{ Source = 'docs\PORTABLE-TOOLS.md'; Destination = 'Documentation\PORTABLE-TOOLS.md' },
+    @{ Source = 'docs\CASE-WORKSPACE.md'; Destination = 'Documentation\CASE-WORKSPACE.md' },
+    @{ Source = 'docs\RELEASE-CHECKLIST-v0.5.0.md'; Destination = 'Documentation\RELEASE-CHECKLIST-v0.5.0.md' },
+    @{ Source = 'docs\RELEASE-NOTES-v0.5.0.md'; Destination = 'Documentation\RELEASE-NOTES-v0.5.0.md' },
+    @{ Source = 'VERSION'; Destination = 'Documentation\VERSION' },
+    @{ Source = 'manifests\images.json'; Destination = 'Documentation\images.json' },
+    @{ Source = 'manifests\portable-tools.json'; Destination = 'Documentation\portable-tools.json' }
 )
 
 foreach ($copy in $copies) {
@@ -89,6 +113,6 @@ Write-Host ''
 Write-Host 'Lazarus Key project files deployed.' -ForegroundColor Green
 Write-Host 'Next:'
 Write-Host "  1. Add the required ISO files under $root\ISO."
-Write-Host '  2. Test both technician-tool buttons from the Windows launcher.'
+Write-Host '  2. Test Case Workspace, the technician tools, and Portable Tools Manager from the Windows launcher.'
 Write-Host "  3. Run .\scripts\Validate-LazarusKey.ps1 -Root $root\"
 Write-Host '  4. Boot-test the USB on an authorized test system.'
